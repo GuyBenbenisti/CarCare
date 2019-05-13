@@ -67,5 +67,11 @@ namespace CarCare
                 labelPosY.Text = y.ToString();
             }));
         }
+
+        public void updatePos(double x, double y)
+        {
+            updatePosX(x);
+            updatePosY(y);
+        }
     }
 }

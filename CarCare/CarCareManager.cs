@@ -16,11 +16,10 @@ namespace CarCare
 
         public TelemetricForm TelemetricForm { get => telemetricForm; }
 
-        public CarCareManager(string ipAddress, int port)
+        public CarCareManager(string ipAddress, int port, Host i_host)
         {
-            ledsInvoker = new LedStripesInvoker(ipAddress, port);
-            this.host = new Host();
-            gazePointDataStream = host.Streams.CreateGazePointDataStream();
+            ledsInvoker = new LedStripesInvoker(ipAddress, port);            
+            gazePointDataStream = i_host.Streams.CreateGazePointDataStream();
             telemetricForm = new TelemetricForm();
             boundAgent();
         }
@@ -33,7 +32,7 @@ namespace CarCare
             //var screenBounds = screenBoundsState.IsValid
             //    ? screenBoundsState.Value
             //    : new Rectangle(0d, 0d, CarCareLogic.ResolutionX, CarCareLogic.ResolutiuonY);
-            var screenBounds = new Rectangle(0d, 0d, 1000d, 1000d);
+            var screenBounds = new Tobii.Interaction.Rectangle(0d, 0d, 1000d, 1000d);
             var virtualWindowsAgent = host.InitializeVirtualWindowsAgent();
             var virtualWindow = virtualWindowsAgent.CreateFreeFloatingVirtualWindowAsync("MyVirtualWindow", screenBounds).Result;
             agent = host.InitializeVirtualInteractorAgent(virtualWindow.Id);

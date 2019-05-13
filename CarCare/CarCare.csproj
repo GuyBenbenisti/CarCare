@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CarCareAgent.cs" />
     <Compile Include="CarCareLogic.cs" />
     <Compile Include="CarCareManager.cs" />
     <Compile Include="LedStripesInvoker.cs" />

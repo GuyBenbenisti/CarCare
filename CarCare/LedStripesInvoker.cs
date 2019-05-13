@@ -7,7 +7,7 @@ using Ventuz.OSC;
 
 namespace CarCare
 {
-    class LedStripesInvoker
+    internal class LedStripesInvoker
     {
         UdpWriter udpWriter;
 

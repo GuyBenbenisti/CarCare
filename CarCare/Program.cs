@@ -12,11 +12,31 @@ namespace CarCare
     {
         static void Main(string[] args)
         {
+            Host host = new Host();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            CarCareManager manager = new CarCareManager("172.20.10.6", 8888);
-            manager.StartListening();
-            Application.Run(manager.TelemetricForm);            
+            //CarCareManager manager = new CarCareManager("172.20.10.6", 8888);
+            //manager.StartListening();
+            //Application.Run(manager.TelemetricForm);
+            TelemetricForm form = new TelemetricForm();
+            LedStripesInvoker stripesInvoker = new LedStripesInvoker("172.20.10.6", 8888);
+            CarCareAgent agent = new CarCareAgent(stripesInvoker);
+
+            GazePointDataStream gazeStream = host.Streams.CreateGazePointDataStream();
+            gazeStream.GazePoint((gazePointX, gazePointY, _) => agent.OnInput(gazePointX, gazePointY));
+            gazeStream.GazePoint((gazePointX, gazePointY, _) => form.updatePos(gazePointX, gazePointY));
+            Application.Run(form);
+        }
+
+        static List<Rectangle> SetBounderies()
+        {
+            Rectangle leftMirror = new Rectangle(0, 0, 20, 20);
+            Rectangle rightMirror = new Rectangle(2500, 0, 2520, 20);
+            //Rectangle middleMirror;
+            List<Rectangle> output = new List<Rectangle>();
+            output.Add(leftMirror);
+            output.Add(rightMirror);
+            return output;
         }
     }
 }
