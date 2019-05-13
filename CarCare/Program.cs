@@ -21,7 +21,7 @@ namespace CarCare
             TelemetricForm form = new TelemetricForm();
             LedStripesInvoker stripesInvoker = new LedStripesInvoker("172.20.10.6", 8888);
             CarCareAgent agent = new CarCareAgent(stripesInvoker);
-
+            CarCareLogic.SetWhiteList(SetBounderies());
             GazePointDataStream gazeStream = host.Streams.CreateGazePointDataStream();
             gazeStream.GazePoint((gazePointX, gazePointY, _) => agent.OnInput(gazePointX, gazePointY));
             gazeStream.GazePoint((gazePointX, gazePointY, _) => form.updatePos(gazePointX, gazePointY));
