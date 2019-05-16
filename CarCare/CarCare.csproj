@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoundaryKeeper.cs" />
+    <Compile Include="CarCareAgent - Copy.cs" />
     <Compile Include="CarCareAgent.cs" />
     <Compile Include="CarCareLogic.cs" />
     <Compile Include="CarCareManager.cs" />

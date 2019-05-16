@@ -9,18 +9,13 @@ namespace CarCare
 {
     internal class CarCareAgent
     {
+        List<BoundaryKeeper> m_KeepersList;
         LedStripesInvoker m_LedStripesInvoker;
-        bool m_WasInvokedLeft;
-        bool m_WasInvokedRight;
         private volatile int m_X_Coor;
         private volatile int m_Y_Coor;
-        DateTime m_LastBoundriesCrossLeft;
-        DateTime m_LastBoundriesCrossRight;
-        TimeSpan m_LeftInterval;
-        TimeSpan m_RightInterval;
         bool m_WasInvoked;
-        volatile bool m_HasLeftEye;
-        volatile bool m_HasRightEye;
+        private volatile bool m_HasLeftEye;
+        private volatile bool m_HasRightEye;
 
         object m_LockStripInvoker;
         internal CarCareAgent(LedStripesInvoker i_LedStripesInvoker)
@@ -32,10 +27,23 @@ namespace CarCare
             m_WasInvoked = false;
             m_LockStripInvoker = new object();
             m_LedStripesInvoker = i_LedStripesInvoker;
-            m_WasInvokedLeft = false;
-            m_WasInvokedRight = false;
-            m_LeftInterval = new TimeSpan();
-            m_RightInterval = new TimeSpan();
+            CreateBoundaryKeeprs();
+        }
+
+        private void CreateBoundaryKeeprs()
+        {
+            BoundaryKeeper leftKeeper = new BoundaryKeeper(CarCareLogic.invocationEnumDirection.left);
+            leftKeeper.SetPredicate(CarCareLogic.checkForLeftBoundaries);
+
+            BoundaryKeeper rightKeeper = new BoundaryKeeper(CarCareLogic.invocationEnumDirection.right);
+            rightKeeper.SetPredicate(CarCareLogic.checkForRightBoundaries);
+
+            BoundaryKeeper eyeContactKeeper = new BoundaryKeeper(CarCareLogic.invocationEnumDirection.middle);
+            eyeContactKeeper.SetPredicate(CarCareLogic.isNoEyesCaptured);
+
+            m_KeepersList.Add(leftKeeper);
+            m_KeepersList.Add(rightKeeper);
+            m_KeepersList.Add(eyeContactKeeper);
         }
 
         internal void OnInputEyePostionsXY(double i_X_Coor, double i_Y_Coor)
@@ -53,89 +61,13 @@ namespace CarCare
         {
             while (true)
             {
-                //if (isNoEyesCaptured())
-                //{
-                //    continue;
-                //}
-                //else
-                //{
-                    checkRight();
-                    checkLeft();
-                //}
-            }
-        }
-        
-
-        private bool isNoEyesCaptured()
-        {
-            if(!m_HasLeftEye && !m_HasRightEye && !m_WasInvoked)
-            {
-                m_WasInvoked = true;
-                invokeSynchronizeMethod(CarCareLogic.invocationEnumDirection.middle);
-                return true;
-            }
-            return false;
-        }
-        private void checkRight()
-        {
-            if (CarCareLogic.checkForRightBoundaries(m_X_Coor, m_Y_Coor, m_HasLeftEye, m_HasRightEye))
-            {
-                if (!m_WasInvokedRight)
+                foreach (BoundaryKeeper keeper in m_KeepersList)
                 {
-                    m_LastBoundriesCrossRight = System.DateTime.Now;
-                    m_WasInvokedRight = true;
-                    m_RightInterval = TimeSpan.Zero;
-                }
-                else
-                {
-                    DateTime now = System.DateTime.Now;
-                    m_RightInterval = now - m_LastBoundriesCrossRight;
-                    if (CarCareLogic.CheckForInterval(m_RightInterval))
+                    if (keeper.checkBounderies(m_X_Coor, m_Y_Coor, m_HasLeftEye, m_HasRightEye))
                     {
-                        m_LastBoundriesCrossRight = System.DateTime.Now; ;
-                        if (!m_WasInvoked)
-                        {
-                            m_WasInvoked = true;
-                            invokeSynchronizeMethod(CarCareLogic.invocationEnumDirection.right);
-                        }
+                        invokeSynchronizeMethod(keeper.Direction);
                     }
                 }
-            }
-            else
-            {
-                m_WasInvokedRight = false;
-                m_RightInterval = TimeSpan.Zero;
-            }
-        }
-        private void checkLeft()
-        {
-            if (CarCareLogic.checkForLeftBoundaries(m_X_Coor, m_Y_Coor, m_HasLeftEye, m_HasRightEye))
-            {
-                if (!m_WasInvokedLeft)
-                {
-                    m_LastBoundriesCrossLeft = System.DateTime.Now;
-                    m_WasInvokedLeft = true;
-                    m_LeftInterval = TimeSpan.Zero;
-                }
-                else
-                {
-                    DateTime now = System.DateTime.Now;
-                    m_LeftInterval = now - m_LastBoundriesCrossLeft;
-                    if (CarCareLogic.CheckForInterval(m_LeftInterval))
-                    {
-                        m_LastBoundriesCrossLeft = System.DateTime.Now; ;
-                        if (!m_WasInvoked)
-                        {
-                            m_WasInvoked = true;
-                            invokeSynchronizeMethod(CarCareLogic.invocationEnumDirection.left);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                m_WasInvokedLeft = false;
-                m_LeftInterval = TimeSpan.Zero;
             }
         }
 
@@ -147,6 +79,8 @@ namespace CarCare
                 m_WasInvoked = false;
                 switch (i_Direction)
                 {
+                    case CarCareLogic.invocationEnumDirection.none:
+                        break;
                     case CarCareLogic.invocationEnumDirection.left:
                         m_LedStripesInvoker.SendSignalLeftToRight();
                         break;

@@ -28,18 +28,23 @@ namespace CarCare
         }
     }
     internal static class CarCareLogic
-    {
+    {        
        internal enum invocationEnumDirection
         {
+            none = 0,
             left,
             right,
             middle
         }
 
+        private static bool m_WasInvoked = false;
         private static readonly TimeSpan delay = new TimeSpan(TimeSpan.TicksPerSecond * 1);
         private static readonly double LEFT_X_BOUNDARY = -50;
         private static readonly double RIGHT_X_BOUNDARY = 1600;
         private static List<Rectangle> whiteList;
+
+        public static bool WasInvoked { get => m_WasInvoked; set => m_WasInvoked = value; }
+
         //private const double LEFT_Y_BOUNDARY = ;
         //private const double RIGHT_Y_BOUNDARY = ;
         //private static int resolutionX = Screen.PrimaryScreen.Bounds.Width;
@@ -71,6 +76,10 @@ namespace CarCare
             return gazePointX >= RIGHT_X_BOUNDARY || (hasLeftEye && !hasRightEye);            
         }
 
+        internal static bool isNoEyesCaptured(int i_x, int i_y, bool i_LeftEye, bool i_RightEye)
+        {
+            return i_LeftEye && !i_RightEye;
+        }
         internal static bool CheckForInterval(TimeSpan i_Interval)
         {
             return i_Interval >= delay;
