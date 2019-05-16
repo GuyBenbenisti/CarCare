@@ -26,6 +26,10 @@ namespace CarCare
             udpWriter.Send(new OscElement("/right"));
         }
 
+        internal void SendSignakAllOn()
+        {
+            udpWriter.Send(new OscElement("/allLights"));
+        }
         internal void StopSignal()
         {
             udpWriter.Send(new OscElement("/stop", 0));

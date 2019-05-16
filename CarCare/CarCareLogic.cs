@@ -32,7 +32,8 @@ namespace CarCare
        internal enum invocationEnumDirection
         {
             left,
-            right
+            right,
+            middle
         }
 
         private static readonly TimeSpan delay = new TimeSpan(TimeSpan.TicksPerSecond * 1);
@@ -51,71 +52,23 @@ namespace CarCare
         //public static int ResolutiuonY { get => resolutiuonY;}
         //public static int ResolutionX { get => resolutionX;}
 
-        internal static bool checkForLeftBoundaries(double gazePointX, double gazePointY)
+        internal static bool checkForLeftBoundaries(int gazePointX, int gazePointY, bool hasLeftEye, bool hasRightEye)
         {
             if (checkIsInWhiteList(gazePointX, gazePointY))
             {
                 return false;
             }
-            return gazePointX <= LEFT_X_BOUNDARY;
-            //if (gazePointX <= LEFT_X_BOUNDARY)
-            //{
-            //    if (lastGazeLostLeft == DateTime.MinValue)
-            //    {
-            //        lastGazeLostLeft = DateTime.Now;
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        if (DateTime.Now.Subtract(lastGazeLostLeft).TotalSeconds >= delay)
-            //        {
-            //            leftCounter++;
-            //            if (leftCounter > 2)
-            //            {
-            //                leftCounter = 0;
-            //                lastGazeLostLeft = DateTime.Now;
-            //            }
-            //            return true;
-            //        }
-            //    }
-            //}
-            //lastGazeLostLeft = DateTime.MinValue;
-            //return false;
-            //return gazePointX <= LEFT_X_BOUNDARY;
+            return gazePointX <= LEFT_X_BOUNDARY || (!hasLeftEye && hasRightEye); ;           
         }
 
-        internal static bool checkForRightBoundaries(double gazePointX, double gazePointY)
+        internal static bool checkForRightBoundaries(int gazePointX, int gazePointY, bool hasLeftEye, bool hasRightEye)
         {
             if(checkIsInWhiteList(gazePointX, gazePointY))
             {
                 return false;
             }
 
-            return gazePointX >= RIGHT_X_BOUNDARY;
-            //if (gazePointX >= RIGHT_X_BOUNDARY)
-            //{
-            //    if (lastGazeLostRight == DateTime.MinValue)
-            //    {
-            //        lastGazeLostRight = DateTime.Now;
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        if (DateTime.Now.Subtract(lastGazeLostRight).TotalSeconds >= delay)
-            //        {
-            //            rightCounter++;
-            //            if (rightCounter > 2)
-            //            {
-            //                rightCounter = 0;
-            //                lastGazeLostRight = DateTime.Now;
-            //            }
-            //            return true;
-            //        }
-            //    }
-            //}
-            //lastGazeLostRight = DateTime.MinValue;
-            //return false;
-            //return gazePointX >= RIGHT_X_BOUNDARY;
+            return gazePointX >= RIGHT_X_BOUNDARY || (hasLeftEye && !hasRightEye);            
         }
 
         internal static bool CheckForInterval(TimeSpan i_Interval)
@@ -128,7 +81,7 @@ namespace CarCare
             whiteList = list;
         }
 
-        private static bool checkIsInWhiteList(double i_X, double i_Y)
+        private static bool checkIsInWhiteList(int i_X, int i_Y)
         {
             foreach(Rectangle rectangle in whiteList)
             {

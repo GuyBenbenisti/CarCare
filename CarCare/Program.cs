@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tobii.Interaction;
@@ -15,16 +16,22 @@ namespace CarCare
             Host host = new Host();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             //CarCareManager manager = new CarCareManager("172.20.10.6", 8888);
             //manager.StartListening();
             //Application.Run(manager.TelemetricForm);
+
             TelemetricForm form = new TelemetricForm();
             LedStripesInvoker stripesInvoker = new LedStripesInvoker("172.20.10.6", 8888);
             CarCareAgent agent = new CarCareAgent(stripesInvoker);
             CarCareLogic.SetWhiteList(SetBounderies());
             GazePointDataStream gazeStream = host.Streams.CreateGazePointDataStream();
-            gazeStream.GazePoint((gazePointX, gazePointY, _) => agent.OnInput(gazePointX, gazePointY));
+            gazeStream.GazePoint((gazePointX, gazePointY, _) => agent.OnInputEyePostionsXY(gazePointX, gazePointY));
             gazeStream.GazePoint((gazePointX, gazePointY, _) => form.updatePos(gazePointX, gazePointY));
+            EyePositionStream eyePositionDataStream = host.Streams.CreateEyePositionStream();
+            eyePositionDataStream.EyePosition(eyePosition => agent.OnInputHasEyes(eyePosition));
+            Thread newThread = new Thread(new ThreadStart(agent.Listen));
+            newThread.Start();
             Application.Run(form);
         }
 
