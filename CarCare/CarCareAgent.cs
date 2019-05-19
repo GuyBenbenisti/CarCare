@@ -20,6 +20,7 @@ namespace CarCare
         object m_LockStripInvoker;
         internal CarCareAgent(LedStripesInvoker i_LedStripesInvoker)
         {
+            m_KeepersList = new List<BoundaryKeeper>();
             m_HasLeftEye = false;
             m_HasRightEye = false;
             m_X_Coor = 0;
