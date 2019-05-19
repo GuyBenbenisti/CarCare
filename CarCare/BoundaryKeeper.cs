@@ -51,9 +51,9 @@ namespace CarCare
                     if (CarCareLogic.CheckForInterval(m_Interval))
                     {
                         m_LastBoundriesCross = System.DateTime.Now; ;
-                        if (!m_WasInvoked)
+                        if (!CarCareLogic.m_WasInvoked)
                         {
-                            CarCareLogic.WasInvoked = true;
+                            CarCareLogic.m_WasInvoked = true;
                             return true;
                         }
                     }

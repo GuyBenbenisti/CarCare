@@ -42,9 +42,9 @@ namespace CarCare
             BoundaryKeeper eyeContactKeeper = new BoundaryKeeper(CarCareLogic.invocationEnumDirection.middle);
             eyeContactKeeper.SetPredicate(CarCareLogic.isNoEyesCaptured);
 
-            m_KeepersList.Add(leftKeeper);
-            m_KeepersList.Add(rightKeeper);
             m_KeepersList.Add(eyeContactKeeper);
+            m_KeepersList.Add(leftKeeper);
+            m_KeepersList.Add(rightKeeper);            
         }
 
         internal void OnInputEyePostionsXY(double i_X_Coor, double i_Y_Coor)
@@ -74,14 +74,12 @@ namespace CarCare
 
         private void invokeSynchronizeMethod(CarCareLogic.invocationEnumDirection i_Direction)
          {
-            if (!m_WasInvoked) return;
+            if (!CarCareLogic.m_WasInvoked) return;
             lock (m_LockStripInvoker)
             {
-                m_WasInvoked = false;
+                CarCareLogic.m_WasInvoked = false;
                 switch (i_Direction)
                 {
-                    case CarCareLogic.invocationEnumDirection.none:
-                        break;
                     case CarCareLogic.invocationEnumDirection.left:
                         m_LedStripesInvoker.SendSignalLeftToRight();
                         break;
@@ -92,7 +90,7 @@ namespace CarCare
                         m_LedStripesInvoker.SendSignakAllOn();
                         break;
                 }
-                m_WasInvoked = false;
+                CarCareLogic.m_WasInvoked = false;
             }
         }
     }

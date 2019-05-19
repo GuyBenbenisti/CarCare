@@ -37,13 +37,13 @@ namespace CarCare
             middle
         }
 
-        private static bool m_WasInvoked = false;
+        internal static bool m_WasInvoked = false;
         private static readonly TimeSpan delay = new TimeSpan(TimeSpan.TicksPerSecond * 1);
         private static readonly double LEFT_X_BOUNDARY = -50;
         private static readonly double RIGHT_X_BOUNDARY = 1600;
         private static List<Rectangle> whiteList;
 
-        public static bool WasInvoked { get => m_WasInvoked; set => m_WasInvoked = value; }
+        //public static bool WasInvoked { get => m_WasInvoked; set => m_WasInvoked = value; }
 
         //private const double LEFT_Y_BOUNDARY = ;
         //private const double RIGHT_Y_BOUNDARY = ;
@@ -78,7 +78,7 @@ namespace CarCare
 
         internal static bool isNoEyesCaptured(int i_x, int i_y, bool i_LeftEye, bool i_RightEye)
         {
-            return i_LeftEye && !i_RightEye;
+            return !i_LeftEye && !i_RightEye;
         }
         internal static bool CheckForInterval(TimeSpan i_Interval)
         {
