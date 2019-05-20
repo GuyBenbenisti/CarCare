@@ -58,28 +58,7 @@
             this.labelGazePosY.Name = "labelGazePosY";
             this.labelGazePosY.Size = new System.Drawing.Size(272, 37);
             this.labelGazePosY.TabIndex = 1;
-            this.labelGazePosY.Text = "Gaze Position Y:";
-            // 
-            // labelHasGaze
-            // 
-            this.labelHasGaze.AutoSize = true;
-            this.labelHasGaze.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHasGaze.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.labelHasGaze.Location = new System.Drawing.Point(28, 149);
-            this.labelHasGaze.Name = "labelHasGaze";
-            this.labelHasGaze.Size = new System.Drawing.Size(177, 37);
-            this.labelHasGaze.TabIndex = 2;
-            this.labelHasGaze.Text = "Has Gaze:";
-            // 
-            // labelGazeStatus
-            // 
-            this.labelGazeStatus.AutoSize = true;
-            this.labelGazeStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGazeStatus.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            this.labelGazeStatus.Location = new System.Drawing.Point(305, 149);
-            this.labelGazeStatus.Name = "labelGazeStatus";
-            this.labelGazeStatus.Size = new System.Drawing.Size(0, 37);
-            this.labelGazeStatus.TabIndex = 3;
+            this.labelGazePosY.Text = "Gaze Position Y:";                 
             // 
             // labelPosY
             // 
@@ -113,7 +92,7 @@
             this.pictureBoxLedsDirection.TabIndex = 6;
             this.pictureBoxLedsDirection.TabStop = false;
             // 
-            // TelemetricForms
+            // TelemetricForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -125,7 +104,7 @@
             this.Controls.Add(this.labelHasGaze);
             this.Controls.Add(this.labelGazePosY);
             this.Controls.Add(this.labelGazePointX);
-            this.Name = "TelemetricForms";
+            this.Name = "TelemetricForm";
             this.Text = "TelemetricForms";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLedsDirection)).EndInit();
             this.ResumeLayout(false);

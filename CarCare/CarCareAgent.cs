@@ -13,7 +13,6 @@ namespace CarCare
         LedStripesInvoker m_LedStripesInvoker;
         private volatile int m_X_Coor;
         private volatile int m_Y_Coor;
-        bool m_WasInvoked;
         private volatile bool m_HasLeftEye;
         private volatile bool m_HasRightEye;
 
@@ -25,7 +24,6 @@ namespace CarCare
             m_HasRightEye = false;
             m_X_Coor = 0;
             m_Y_Coor = 0;
-            m_WasInvoked = false;
             m_LockStripInvoker = new object();
             m_LedStripesInvoker = i_LedStripesInvoker;
             CreateBoundaryKeeprs();
@@ -42,7 +40,7 @@ namespace CarCare
             BoundaryKeeper eyeContactKeeper = new BoundaryKeeper(CarCareLogic.invocationEnumDirection.middle);
             eyeContactKeeper.SetPredicate(CarCareLogic.isNoEyesCaptured);
 
-            m_KeepersList.Add(eyeContactKeeper);
+            //m_KeepersList.Add(eyeContactKeeper);
             m_KeepersList.Add(leftKeeper);
             m_KeepersList.Add(rightKeeper);            
         }

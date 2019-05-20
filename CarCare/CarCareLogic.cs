@@ -43,20 +43,6 @@ namespace CarCare
         private static readonly double RIGHT_X_BOUNDARY = 1600;
         private static List<Rectangle> whiteList;
 
-        //public static bool WasInvoked { get => m_WasInvoked; set => m_WasInvoked = value; }
-
-        //private const double LEFT_Y_BOUNDARY = ;
-        //private const double RIGHT_Y_BOUNDARY = ;
-        //private static int resolutionX = Screen.PrimaryScreen.Bounds.Width;
-        //private static int resolutiuonY = Screen.PrimaryScreen.Bounds.Height;
-        //private static DateTime lastGazeLostLeft = DateTime.MinValue;
-        //private static DateTime lastGazeLostRight;
-        //private static int leftCounter = 0;
-        //private static int rightCounter = 0;
-
-        //public static int ResolutiuonY { get => resolutiuonY;}
-        //public static int ResolutionX { get => resolutionX;}
-
         internal static bool checkForLeftBoundaries(int gazePointX, int gazePointY, bool hasLeftEye, bool hasRightEye)
         {
             if (checkIsInWhiteList(gazePointX, gazePointY))

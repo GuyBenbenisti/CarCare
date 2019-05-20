@@ -17,20 +17,6 @@ namespace CarCare
             InitializeComponent();
         }
 
-        public void changeLabelGazeStatusHas()
-        {
-            labelGazeStatus.Invoke(new Action(() => {
-                labelGazeStatus.Text = "Yes :)";
-            }));
-        }
-
-        public void changeLabelGazeStatusLost()
-        {
-            labelGazeStatus.Invoke(new Action(() => {
-                labelGazeStatus.Text = "No :(";
-            }));
-        }
-
         public void changePicBoxMiddle()
         {
             pictureBoxLedsDirection.Invoke(new Action(() =>
